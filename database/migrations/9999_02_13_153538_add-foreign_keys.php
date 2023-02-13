@@ -25,6 +25,11 @@ return new class extends Migration
             // Scrittura contratta
 
             // $table -> foreignId('user_id')-> constrained();
+
+            Schema::table('person_details', function (Blueprint $table) {
+                // Versione 2
+                $table->foreignId('person_id')->constrained();
+              });
         });
     }
 
@@ -35,6 +40,15 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+      Schema::table('posts', function (Blueprint $table) {
+        $table->dropForeign('posts_person_id_foreign');
+        $table->dropColumn('person_id');
+      });
+  
+      Schema::table('person_details', function (Blueprint $table) {
+        $table->dropForeign('person_details_person_id_foreign');
+        $table->dropColumn('person_id');
+      });
     }
 };
+
